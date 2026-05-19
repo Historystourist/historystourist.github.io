@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>History's Tourist — Maya Chrono</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --lavender: #C8A8E8;
+    --lavender-light: #EDD5F8;
+    --lavender-deep: #7B4FA6;
+    --peach: #F4B896;
+    --peach-deep: #E8916A;
+    --mint: #9FE1CB;
+    --plum: #2D1F3D;
+    --blush: #FDF6FF;
+    --blush-mid: #F5EEF8;
+    --text-dark: #1A0F2E;
+    --text-mid: #5A3E7A;
+    --border: #E8D5F5;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--blush);
+    color: var(--text-dark);
+    overflow-x: hidden;
+  }
+
+  /* ── BACKGROUND ── */
+  .bg-orbs {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.35;
+    animation: drift 12s ease-in-out infinite alternate;
+  }
+  .orb-1 { width: 500px; height: 500px; background: var(--lavender); top: -100px; left: -150px; animation-delay: 0s; }
+  .orb-2 { width: 400px; height: 400px; background: var(--peach); top: 30%; right: -100px; animation-delay: -4s; }
+  .orb-3 { width: 350px; height: 350px; background: var(--mint); bottom: 10%; left: 20%; animation-delay: -8s; }
+  .orb-4 { width: 300px; height: 300px; background: var(--lavender-light); bottom: -50px; right: 20%; animation-delay: -2s; }
+
+  @keyframes drift {
+    from { transform: translate(0, 0) scale(1); }
+    to { transform: translate(30px, 20px) scale(1.05); }
+  }
+
+  /* ── LAYOUT ── */
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: relative;
+    z-index: 1;
+    padding: 48px 24px 0;
+    text-align: center;
+  }
+
+  .channel-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-family: 'DM Sans', sans-serif;
+    letter-spacing: 0.3em;
+    color: var(--peach-deep);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .channel-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(48px, 8vw, 88px);
+    font-weight: 300;
+    color: var(--plum);
+    line-height: 0.95;
+    letter-spacing: -0.01em;
+    animation: fadeUp 0.8s ease 0.1s both;
+  }
+
+  .channel-name em {
+    font-style: italic;
+    color: var(--lavender-deep);
+  }
+
+  .tagline {
+    font-size: 14px;
+    color: var(--text-mid);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-top: 16px;
+    font-weight: 300;
+    animation: fadeUp 0.8s ease 0.2s both;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 28px 24px 0;
+    animation: fadeUp 0.8s ease 0.3s both;
+  }
+
+  .hero-image-wrap {
+    position: relative;
+    width: min(420px, 88vw);
+    height: min(580px, 122vw);
+  }
+
+  .hero-image-wrap::before {
+    content: '';
+    position: absolute;
+    inset: -20px;
+    border-radius: 30px;
+    background: linear-gradient(145deg, var(--lavender), var(--peach), var(--mint));
+    opacity: 0.5;
+    filter: blur(36px);
+    z-index: -1;
+  }
+
+  .hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    border-radius: 52% 48% 38% 62% / 44% 56% 44% 56%;
+    border: 4px solid rgba(255,255,255,0.92);
+    display: block;
+    background: var(--lavender-light);
+    box-shadow:
+      0 32px 80px rgba(123,79,166,0.2),
+      0 8px 32px rgba(200,168,232,0.3);
+  }
+
+  .hero-img-placeholder {
+    width: 100%;
+    height: 100%;
+    border-radius: 52% 48% 38% 62% / 44% 56% 44% 56%;
+    border: 4px solid rgba(255,255,255,0.9);
+    background: linear-gradient(135deg, var(--lavender-light), var(--peach));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: var(--lavender-deep);
+    font-size: 13px;
+    text-align: center;
+    padding: 20px;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .hero-badge {
+    position: absolute;
+    bottom: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 12px;
+    color: var(--lavender-deep);
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+    box-shadow: 0 4px 20px rgba(200,168,232,0.2);
+  }
+
+  /* ── BIO ── */
+  .bio-section {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    max-width: 500px;
+    margin: 44px auto 0;
+    padding: 0 24px;
+    animation: fadeUp 0.8s ease 0.4s both;
+  }
+
+  .bio-section p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.9;
+    color: var(--text-mid);
+  }
+
+  .bio-section p span {
+    color: var(--lavender-deep);
+    font-weight: 500;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    max-width: 400px;
+    margin: 40px auto;
+    padding: 0 24px;
+    opacity: 0.5;
+  }
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 0.5px;
+    background: var(--lavender);
+  }
+  .divider span { font-size: 16px; }
+
+  /* ── SECTION TITLES ── */
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--peach-deep);
+    text-align: center;
+    margin-bottom: 24px;
+  }
+
+  /* ── SOCIAL LINKS ── */
+  .social-grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 24px;
+    animation: fadeUp 0.8s ease 0.5s both;
+  }
+
+  .social-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 24px 16px;
+    background: rgba(255,255,255,0.7);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    text-decoration: none;
+    color: var(--text-dark);
+    transition: all 0.3s ease;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .social-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(200,168,232,0.3);
+    border-color: var(--lavender);
+    background: rgba(255,255,255,0.9);
+  }
+
+  .social-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+  }
+
+  .social-card .s-name {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    color: var(--plum);
+  }
+
+  .social-card .s-handle {
+    font-size: 11px;
+    color: var(--text-mid);
+    font-weight: 300;
+  }
+
+  /* ── LATEST VIDEO ── */
+  .video-section {
+    position: relative;
+    z-index: 1;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 24px;
+    animation: fadeUp 0.8s ease 0.6s both;
+  }
+
+  .video-card {
+    background: rgba(255,255,255,0.7);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+    text-decoration: none;
+    color: var(--text-dark);
+    display: block;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .video-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(200,168,232,0.3);
+    border-color: var(--lavender);
+  }
+
+  .video-thumb {
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(135deg, var(--lavender-light), var(--peach));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .video-thumb::after {
+    content: '▶';
+    width: 56px;
+    height: 56px;
+    background: rgba(255,255,255,0.95);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: var(--lavender-deep);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+    display: grid;
+    place-items: center;
+  }
+
+  .video-thumb-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-style: italic;
+    color: var(--lavender-deep);
+    opacity: 0.4;
+    position: absolute;
+    bottom: 16px;
+    left: 20px;
+  }
+
+  .video-info {
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .video-new-badge {
+    background: var(--lavender-light);
+    color: var(--lavender-deep);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    padding: 4px 10px;
+    border-radius: 10px;
+    white-space: nowrap;
+    font-weight: 500;
+  }
+
+  .video-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--plum);
+    line-height: 1.4;
+  }
+
+  .video-cta {
+    font-size: 12px;
+    color: var(--peach-deep);
+    letter-spacing: 0.1em;
+    margin-top: 4px;
+  }
+
+  /* ── SUPPORT ── */
+  .support-grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 24px;
+    animation: fadeUp 0.8s ease 0.7s both;
+  }
+
+  .support-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 20px 20px;
+    background: rgba(255,255,255,0.7);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    text-decoration: none;
+    color: var(--text-dark);
+    transition: all 0.3s ease;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .support-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(200,168,232,0.3);
+    border-color: var(--lavender);
+    background: rgba(255,255,255,0.9);
+  }
+
+  .support-icon {
+    font-size: 28px;
+    flex-shrink: 0;
+  }
+
+  .support-info .s-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--plum);
+  }
+
+  .support-info .s-desc {
+    font-size: 12px;
+    color: var(--text-mid);
+    font-weight: 300;
+    margin-top: 2px;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 48px 24px 40px;
+    animation: fadeUp 0.8s ease 0.8s both;
+  }
+
+  footer .footer-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-style: italic;
+    color: var(--lavender-deep);
+    margin-bottom: 8px;
+  }
+
+  footer p {
+    font-size: 12px;
+    color: var(--text-mid);
+    letter-spacing: 0.1em;
+    font-weight: 300;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 520px) {
+    .social-grid { grid-template-columns: 1fr 1fr; }
+    .support-grid { grid-template-columns: 1fr; }
+    .hero-image-wrap { width: min(340px, 88vw); height: min(470px, 122vw); }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-orbs">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="orb orb-4"></div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="channel-tag">✈︎ &nbsp; Time Travel Vlogs &nbsp; ✈︎</div>
+  <h1 class="channel-name">History's<br><em>Tourist</em></h1>
+  <p class="tagline">with Maya Chrono</p>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-image-wrap">
+    <img class="hero-img" src="mayafullbody.png" alt="Maya Chrono">
+    <div class="hero-badge">✨ &nbsp; Travelling through time since 2026</div>
+  </div>
+</div>
+
+<!-- BIO -->
+<div class="bio-section">
+  <p>I borrowed my dad's time machine without asking. The device malfunctioned. Now I'm stuck jumping through history with no way home. <span>Subscribe so at least someone knows where I am.</span></p>
+</div>
+
+<div class="divider"><span>✦</span></div>
+
+<!-- SOCIAL -->
+<div class="container">
+  <p class="section-title">Find me here</p>
+</div>
+<div class="social-grid">
+  <a class="social-card" href="https://youtube.com/@HistorysTourist" target="_blank" rel="noopener">
+    <div class="social-icon" style="background:#FFE8E8;">▶️</div>
+    <span class="s-name">YouTube</span>
+    <span class="s-handle">@HistorysTourist</span>
+  </a>
+  <a class="social-card" href="https://instagram.com/historystourist" target="_blank" rel="noopener">
+    <div class="social-icon" style="background:#FFE8F5;">📸</div>
+    <span class="s-name">Instagram</span>
+    <span class="s-handle">@historystourist</span>
+  </a>
+  <a class="social-card" href="https://tiktok.com/@historystourist" target="_blank" rel="noopener">
+    <div class="social-icon" style="background:#E8F8FF;">🎵</div>
+    <span class="s-name">TikTok</span>
+    <span class="s-handle">@historystourist</span>
+  </a>
+  <a class="social-card" href="mailto:historystourist@gmail.com">
+    <div class="social-icon" style="background:#E8FFE8;">✉️</div>
+    <span class="s-name">Email</span>
+    <span class="s-handle">historystourist@gmail.com</span>
+  </a>
+</div>
+
+<div class="divider"><span>✦</span></div>
+
+<!-- LATEST VIDEO -->
+<div class="container">
+  <p class="section-title">Latest video</p>
+</div>
+<div class="video-section">
+  <a class="video-card" href="https://youtube.com/@HistorysTourist" target="_blank" rel="noopener">
+    <div class="video-thumb">
+      <div class="video-thumb-text">History's Tourist</div>
+    </div>
+    <div class="video-info">
+      <div>
+        <div class="video-new-badge">NEW ✨</div>
+      </div>
+      <div>
+        <div class="video-title">My latest time travel vlog is live — click to watch!</div>
+        <div class="video-cta">Watch on YouTube →</div>
+      </div>
+    </div>
+  </a>
+</div>
+
+<div class="divider"><span>✦</span></div>
+
+<!-- SUPPORT -->
+<div class="container">
+  <p class="section-title">Support the channel</p>
+</div>
+<div class="support-grid">
+  <a class="support-card" href="https://buymeacoffee.com/historystourist" target="_blank" rel="noopener">
+    <div class="support-icon">☕</div>
+    <div class="support-info">
+      <div class="s-name">Buy Me a Coffee</div>
+      <div class="s-desc">Fuel Maya's time travels</div>
+    </div>
+  </a>
+  <a class="support-card" href="https://ko-fi.com/historystourist" target="_blank" rel="noopener">
+    <div class="support-icon">🧡</div>
+    <div class="support-info">
+      <div class="s-name">Ko-fi</div>
+      <div class="s-desc">Support on Ko-fi</div>
+    </div>
+  </a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-name">Maya Chrono</div>
+  <p>© 2026 History's Tourist · All rights reserved</p>
+</footer>
+
+</body>
+</html>
